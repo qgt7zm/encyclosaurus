@@ -1,11 +1,10 @@
--- Dinosaur Database SQL Dump
+-- Dinosaur Database Initialization Script
 
 -- Drop existing views first to avoid dependency issues
 DROP VIEW IF EXISTS DinosaurLocationCounts;
 DROP VIEW IF EXISTS DinosaurLocationSummaries;
 DROP VIEW IF EXISTS DinosaurSummaries;
 DROP VIEW IF EXISTS CladeParents;
-
 
 -- Drop existing tables if they exist to avoid conflicts
 DROP TABLE IF EXISTS request_details_log;
@@ -334,7 +333,6 @@ CREATE OR REPLACE VIEW DinosaurLocationCounts AS
     FROM DinosaurLocationSummaries
     GROUP BY location_name, country, continent
     ORDER BY location_name;
-
 
 -- 7. Insert Sample Data
 -- Insert sample Users
