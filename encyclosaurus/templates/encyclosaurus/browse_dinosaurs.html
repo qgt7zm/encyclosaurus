@@ -1,0 +1,83 @@
+{% extends 'encyclosaurus/base.html' %}
+
+{% block title %}Browse Dinosaurs - Encyclosaurus{% endblock %}
+
+{% block extra_css %}
+<style>
+    .browse-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    .browse-title {
+        text-align: center;
+        color: var(--primary-color);
+        margin-bottom: 2rem;
+    }
+
+    .browse-section {
+        margin-bottom: 2rem;
+        padding: 1rem;
+        border: 1px solid #e1e1e1;
+        border-radius: 5px;
+    }
+
+    .section-title {
+        color: var(--secondary-color);
+        margin-bottom: 1rem;
+    }
+
+    .btn-submit {
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    .btn-submit:hover {
+        background-color: var(--secondary-color);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="browse-container">
+    <h2 class="browse-title">Browse Dinosaur Entries</h2>
+
+    <!--Search Entries-->
+    <div class="browse-section">
+        <h3 class="section-title fs-4">Search Entries</h3>
+        <form method="get" action="/dinosaurs">
+            <div class="form-group">
+                <label class="required-field" for="keyword">Keyword</label>
+                <input type="text" class="form-control" id="keyword" name="keyword" value="{{ keyword }}">
+                <small class="help-text">Search by genus, species, or clade</small>
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-submit">Search</button>
+                <a class="btn btn-secondary" href="/dinosaurs" >Clear</a>
+            </div>
+        </form>
+    </div>
+
+    <hr>
+
+    <!--List Entries-->
+    {% for dino in dinos %}
+    <div class="browse-section">
+        <strong>
+            <a class="link-underline link-underline-opacity-0" href="/dinosaurs/{{ dino.id }}">
+                <em class="section-title">{{ dino.genus }} {{ dino.species }}</em>
+            </a>
+        </strong>
+        ({{ dino.range_start }}-{{ dino.range_end }} Mya)<br>
+        Clade: {{ dino.clade }}<br>
+        <a class="link-secondary" href="/dinosaurs/{{ dino.id }}">Read more…</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+</div>

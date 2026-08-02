@@ -1,0 +1,229 @@
+{% extends 'encyclosaurus/base.html' %}
+
+{% block title %}Update {{ genus }} - Encyclosaurus{% endblock %}
+
+{% block extra_css %}
+<style>
+    .submission-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    .submission-title {
+        text-align: center;
+        color: var(--primary-color);
+        margin-bottom: 2rem;
+    }
+
+    .form-section {
+        margin-bottom: 2rem;
+        padding: 1rem;
+        border: 1px solid #e1e1e1;
+        border-radius: 5px;
+    }
+
+    .section-title {
+        color: var(--secondary-color);
+        margin-bottom: 1rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .btn-submit {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 0.75rem 2rem;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.1rem;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-submit:hover {
+        background-color: var(--secondary-color);
+    }
+
+    .required-field::after {
+        content: "*";
+        color: red;
+        margin-left: 4px;
+    }
+
+    .help-text {
+        font-size: 0.9rem;
+        color: #666;
+        margin-top: 0.25rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="submission-container">
+    <h2 class="submission-title">Update Information for {{ genus }}</h2>
+    <form method="post" action="{% url 'dinosaur:update_request' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Dino ID -->
+        <input type="hidden" name="id" value="{{ id }}">
+
+        <!-- Taxonomy Information -->
+        <div class="form-section">
+            <h3 class="section-title">Taxonomy Information</h3>
+            <div class="form-group">
+                <label class="required-field" for="genus">Genus</label>
+                <input
+                        type="text" class="form-control" id="genus" name="genus"
+                        value="{{ genus }}" required>
+                <small class="help-text">Enter the genus name (e.g., Tyrannosaurus)</small>
+            </div>
+            <div class="form-group">
+                <label class="required-field" for="species">Species</label>
+                <input
+                        type="text" class="form-control" id="species" name="species"
+                        value="{{ species }}" required>
+                <small class="help-text">Enter the species name (e.g., rex)</small>
+            </div>
+            <div class="form-group">
+                <label for="parent_clade">Parent Clade</label>
+                <input
+                        type="text" class="form-control" id="parent_clade" name="parent_clade"
+                        value="{{ parent_clade }}">
+                <small class="help-text">Enter the taxonomic clade this dinosaur belongs to</small>
+            </div>
+        </div>
+
+        <!-- Discovery Information -->
+        <div class="form-section">
+            <h3 class="section-title">Discovery Information</h3>
+            <div class="form-group">
+                <label class="required-field" for="discoverer_name">Discoverer Name</label>
+                <input
+                        type="text" class="form-control" id="discoverer_name" name="discoverer_name"
+                        value="{{ discoverer_name }}" required>
+                <small class="help-text">Usually the last name of the discoverer</small>
+            </div>
+            <div class="form-group">
+                <label class="required-field" for="discoverer_year">Year of Discovery</label>
+                <input
+                        type="number" class="form-control" id="discoverer_year" name="discoverer_year"
+                        value="{{ discoverer_year }}" required min="1">
+            </div>
+        </div>
+
+        <!-- Temporal Range -->
+        <div class="form-section">
+            <h3 class="section-title">Temporal Range (Million Years Ago)</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="required-field" for="range_start">Range Start</label>
+                        <input
+                                type="number" step="0.1" class="form-control" id="range_start" name="range_start"
+                                value="{{ range_start }}" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="required-field" for="range_end">Range End</label>
+                        <input
+                                type="number" step="0.1" class="form-control" id="range_end" name="range_end"
+                                value="{{ range_end }}" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Physical Characteristics -->
+        <div class="form-section">
+            <h3 class="section-title">Physical Characteristics</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="required-field" for="weight">Weight (kg)</label>
+                        <input
+                                type="number" step="0.1" class="form-control" id="weight" name="weight"
+                                value="{{ weight }}" required min="0.1">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="required-field" for="length">Length (meters)</label>
+                        <input
+                                type="number" step="0.1" class="form-control" id="length" name="length"
+                                value="{{ length }}" required min="0.1">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="required-field" for="gait">Gait</label>
+                <select type="text" class="form-control" id="gait" name="gait" required>
+                    <option value="">Select gait</option>
+                    {% for gait_opt in gait_values %}
+                    {% if gait_opt == gait %}
+                    <option value="{{ gait_opt }}" selected>{{ gait_opt }}</option>
+                    {% else %}
+                    <option value="{{ gait_opt }}">{{ gait_opt }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+                <small class="help-text">Describe the dinosaur's mode of locomotion</small>
+            </div>
+        </div>
+
+        <!-- Ecology -->
+        <div class="form-section">
+            <h3 class="section-title">Ecology</h3>
+            <div class="form-group">
+                <label class="required-field" for="habitat">Habitat</label>
+                <input
+                        type="text" class="form-control" id="habitat"
+                        value="{{ habitat }}" name="habitat" required>
+                <small class="help-text">Describe the environment where the dinosaur lived</small>
+            </div>
+            <div class="form-group">
+                <label class="required-field" for="diet">Diet</label>
+                <select class="form-control" id="diet" name="diet" required>
+                    <option value="">Select diet</option>
+                    {% for diet_opt in diet_values %}
+                    {% if diet_opt == diet %}
+                    <option value="{{ diet_opt }}" selected>{{ diet_opt }}</option>
+                    {% else %}
+                    <option value="{{ diet_opt }}">{{ diet_opt }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <!-- TODO update locations -->
+
+        <!-- Additional Information -->
+        <div class="form-section">
+            <h3 class="section-title">Additional Information</h3>
+            <div class="form-group">
+                <label for="notes">Notes</label>
+                <textarea class="form-control" id="notes" name="notes" rows="4">{{ notes }}</textarea>
+                <small class="help-text">Additional information about the dinosaur</small>
+            </div>
+            <div class="form-group">
+                <label for="fossil_images">Fossil Images</label>
+                <input
+                        type="file" class="form-control" id="fossil_images" name="fossil_images" multiple
+                        accept="image/*">
+                <small class="help-text">You can upload multiple images (max 5)</small>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-submit">Submit Update</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+</div>

@@ -1,0 +1,116 @@
+{% extends 'encyclosaurus/base.html' %}
+
+{% block title %}{{ genus }} - Encyclosaurus{% endblock %}
+
+{% block extra_css %}
+<style>
+    .info-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    .info-title {
+        text-align: center;
+        color: var(--primary-color);
+        margin-bottom: 2rem;
+    }
+
+    .info-section {
+        margin-bottom: 2rem;
+        padding: 1rem;
+        border: 1px solid #e1e1e1;
+        border-radius: 5px;
+    }
+
+    .section-title {
+        color: var(--secondary-color);
+        margin-bottom: 1rem;
+    }
+
+    .btn-submit {
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    .btn-submit:hover {
+        background-color: var(--secondary-color);
+    }
+</style>
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="info-container">
+    <h2 class="info-title">Dinosaur Entry for <em>{{ genus }}</em></h2>
+
+    <!--Taxonomy-->
+    <div class="info-section">
+        <h3 class="section-title">Taxonomical Information</h3>
+        <strong>Binomial Name:</strong> <em>{{ genus }} {{ species }}</em><br>
+        <strong>Classification:</strong>
+        <ul>
+            {% for clade in clades %}
+            <li>{{ clade.name }} ({{ clade.rank }})</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!--Discovery-->
+    <div class="info-section">
+        <h3 class="section-title">Discovery</h3>
+        <strong>Name of Discoverer:</strong> {{ discoverer_name }}<br>
+        <strong>Year of Discovery:</strong> {{ discoverer_year }}<br>
+        <strong>Taxa Status:</strong> {{ status }}
+    </div>
+
+    <!--Physical-->
+    <div class="info-section">
+        <h3 class="section-title">Physical Description</h3>
+        <strong>Weight (kg):</strong> {{ weight }}<br>
+        <strong>Length (m):</strong> {{ length }}<br>
+        <strong>Gait:</strong> {{ gait }}
+    </div>
+
+    <!--Ecology-->
+    <div class="info-section">
+        <h3 class="section-title">Ecology</h3>
+        <strong>Temporal Range:</strong> {{ range_start }}-{{ range_end }} Mya<br>
+        <strong>Habitat (kg):</strong> {{ habitat }}<br>
+        <strong>Diet:</strong> {{ diet }}
+    </div>
+
+    <!--Locations-->
+    <div class="info-section">
+        <h3 class="section-title">Locations</h3>
+        <table class="table table-bordered border-tertiary">
+            <tr>
+                <th>Name</th>
+                <th>Region</th>
+                <th>Coordinates</th>
+            </tr>
+            {% for location in locations %}
+            <tr>
+                <td>{{ location.name }}</td>
+                <td>{{ location.country }}, {{ location.continent }}</td>
+                <td>{{ location.latitude }}°, {{ location.longitude }}°</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!--Additional-->
+    <div class="info-section">
+        <h3 class="section-title">Additional</h3>
+        <strong>Notes:</strong>
+        <p>{{ notes }}</p>
+    </div>
+
+    <a class="btn btn-submit" href="/dinosaurs/{{ id }}/update">Update</a>
+
+</div>
+{% endblock %}
+</div>

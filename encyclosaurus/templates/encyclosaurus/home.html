@@ -1,0 +1,144 @@
+{% extends 'encyclosaurus/base.html' %}
+
+{% block title %}Home - Encyclosaurus{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        padding: 4rem 0;
+        margin-bottom: 3rem;
+        border-radius: 10px;
+    }
+    
+    .feature-card {
+        background: white;
+        border-radius: 10px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+        height: 100%;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .feature-icon {
+        font-size: 2.5rem;
+        color: var(--accent-color);
+        margin-bottom: 1rem;
+    }
+    
+    .cta-button {
+        background-color: var(--accent-color);
+        border: none;
+        padding: 0.8rem 2rem;
+        font-size: 1.1rem;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+    
+    .cta-button:hover {
+        background-color: #c0392b;
+    }
+    
+    .search-box {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .feature-row {
+        display: flex;
+        justify-content: center;
+    }
+
+    .search-input {
+        border: none;
+        padding: 1rem;
+        font-size: 1.1rem;
+        border-radius: 5px 0 0 5px;
+    }
+
+    .search-button {
+        background-color: var(--accent-color);
+        border: none;
+        color: white;
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        border-radius: 0 5px 5px 0;
+        transition: background-color 0.3s ease;
+    }
+
+    .search-button:hover {
+        background-color: #c0392b;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero-section text-center">
+    <div class="container">
+        <h1 class="display-4 mb-4">Welcome to Encyclosaurus</h1>
+        <p class="lead mb-4">Your comprehensive database of dinosaur information and discoveries</p>
+        
+        <div class="search-box">
+            <form action="/dinosaurs/" method="get" class="d-flex">
+                <input type="text" 
+                       name="keyword" 
+                       class="form-control search-input" 
+                       placeholder="Search by genus, species, or clade..."
+                       value="{{ keyword|default:'' }}">
+                <button type="submit" class="btn search-button">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row feature-row">
+        <div class="col-md-4">
+            <div class="feature-card text-center">
+                <div class="feature-icon">🦕</div>
+                <h3>Browse Dinosaurs</h3>
+                <p>Explore our extensive database of dinosaur species, their characteristics, and discoveries.</p>
+                <a href="/dinosaurs" class="btn btn-primary">Explore</a>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="feature-card text-center">
+                <div class="feature-icon">🗺️</div>
+                <h3>Interactive Map</h3>
+                <p>Discover dinosaur fossil locations and research sites through our interactive map.</p>
+                <a href="/map" class="btn btn-primary">View Map</a>
+            </div>
+        </div>
+        
+        {% if user_authenticated %}
+        <div class="col-md-4">
+            <div class="feature-card text-center">
+                <div class="feature-icon">📝</div>
+                <h3>Contribute</h3>
+                <p>Share your research and discoveries with the paleontology community.</p>
+                <a href="/submit-dinosaur" class="btn btn-primary">Submit Data</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    
+    {% if not user_authenticated %}
+    <div class="row mt-5">
+        <div class="col-12 text-center">
+            <h2>Join Our Community</h2>
+            <p class="lead">Create an account to contribute to our growing database and connect with researchers worldwide.</p>
+            <a href="/register" class="btn btn-lg cta-button">Get Started</a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %} 

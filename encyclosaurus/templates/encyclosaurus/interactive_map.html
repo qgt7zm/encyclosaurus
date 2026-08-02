@@ -1,0 +1,168 @@
+{% extends 'encyclosaurus/base.html' %}
+
+{% block title %}Interactive Dinosaur Map - Encyclosaurus{% endblock %}
+
+{% block extra_css %}
+<style>
+    #map-container {
+        height: 600px;
+        width: 100%;
+        margin: 2rem 0;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    .dino-popup {
+        max-width: 300px;
+    }
+
+    .dino-popup img {
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 10px;
+    }
+
+    .dino-popup h3 {
+        color: var(--primary-color);
+        margin-bottom: 10px;
+    }
+
+    .dino-popup p {
+        margin-bottom: 5px;
+    }
+
+    .dino-popup a {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .dino-popup a:hover {
+        text-decoration: underline;
+    }
+
+    .region-controls {
+        margin-bottom: 1rem;
+        padding: 1rem;
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .region-btn {
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .marker-cluster {
+        background-color: var(--primary-color);
+        color: white;
+        border-radius: 50%;
+        text-align: center;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center mb-4">Interactive Dinosaur Map</h2>
+    <p class="text-center mb-4">Click on regions to discover dinosaurs that lived there!</p>
+    
+    <div class="region-controls">
+        <button class="btn btn-primary region-btn" data-region="north-america">North America</button>
+        <button class="btn btn-primary region-btn" data-region="south-america">South America</button>
+        <button class="btn btn-primary region-btn" data-region="europe">Europe</button>
+        <button class="btn btn-primary region-btn" data-region="asia">Asia</button>
+        <button class="btn btn-primary region-btn" data-region="africa">Africa</button>
+        <button class="btn btn-primary region-btn" data-region="australia">Australia</button>
+        <button class="btn btn-primary region-btn" data-region="antarctica">Antarctica</button>
+    </div>
+    
+    <div id="map-container"></div>
+    
+    <div id="dino-info" class="mt-4">
+        <!-- Dinosaur information will be displayed here -->
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css">
+<script>
+    // Initialize the map
+    const map = L.map('map-container').setView([20, 0], 2);
+    
+    // Add the base map layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Create marker cluster group
+    const markers = L.markerClusterGroup();
+
+    // Process dinosaur data from Django context
+    const dinosaurData = {};
+    {% for dino in dinos %}
+    (function() {
+        const location = "{{ dino.location|escapejs }}";
+        if (!dinosaurData[location]) {
+            dinosaurData[location] = [];
+        }
+        dinosaurData[location].push({
+            id: {{ dino.id }},
+            genus: "{{ dino.genus|escapejs }}",
+            location_name: "{{ dino.location_name|escapejs }}",
+            country: "{{ dino.country|escapejs }}",
+            latitude: {{ dino.latitude }},
+            longitude: {{ dino.longitude }}
+        });
+    })();
+    {% endfor %}
+
+    // Add markers for each dinosaur
+    Object.entries(dinosaurData).forEach(([region, dinos]) => {
+        dinos.forEach(dino => {
+            const marker = L.marker([dino.latitude, dino.longitude]);
+            const popupContent = `
+                <div class="dino-popup">
+                    <h3><a href="/dinosaurs/${dino.id}">${dino.genus}</a></h3>
+                    <p>Location: ${dino.location_name}</p>
+                    <p>Country: ${dino.country}</p>
+                </div>
+            `;
+            marker.bindPopup(popupContent);
+            markers.addLayer(marker);
+        });
+    });
+
+    // Add markers to map
+    map.addLayer(markers);
+
+    // Region coordinates (approximate)
+    const regions = {
+        'north-america': [[50, -100], [40, -90], [30, -80]],
+        'south-america': [[-20, -60], [-30, -50], [-40, -40]],
+        'europe': [[50, 10], [40, 20], [30, 30]],
+        'asia': [[40, 100], [30, 110], [20, 120]],
+        'africa': [[0, 20], [-10, 30], [-20, 40]],
+        'australia': [[-20, 130], [-30, 140], [-40, 150]],
+        'antarctica': [[-60, 0], [-70, 10], [-80, 20]]
+    };
+
+    // Add region button click handlers
+    document.querySelectorAll('.region-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const region = this.dataset.region;
+            const coordinates = regions[region];
+            if (coordinates) {
+                map.fitBounds(coordinates);
+            }
+        });
+    });
+</script>
+{% endblock %} 

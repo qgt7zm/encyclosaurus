@@ -1,0 +1,191 @@
+{% extends 'encyclosaurus/base.html' %}
+
+{% block title %}Register - Encyclosaurus{% endblock %}
+
+{% block extra_css %}
+<style>
+    .register-container {
+        max-width: 600px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    .register-title {
+        text-align: center;
+        color: var(--primary-color);
+        margin-bottom: 2rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .btn-register {
+        background-color: var(--primary-color);
+        color: white;
+        width: 100%;
+        padding: 0.75rem;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.1rem;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-register:hover {
+        background-color: var(--secondary-color);
+    }
+
+    .login-link {
+        text-align: center;
+        margin-top: 1rem;
+    }
+
+    .researcher-info {
+        background-color: #f8f9fa;
+        padding: 1rem;
+        border-radius: 5px;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-text {
+        font-size: 0.9rem;
+        color: #666;
+        margin-top: 0.25rem;
+    }
+    
+    .alert {
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 1rem;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+    }
+    
+    .alert-danger {
+        color: #721c24;
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+    }
+    
+    .field-error {
+        color: #dc3545;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+    
+    .error-summary {
+        background-color: #f8d7da;
+        border-left: 4px solid #dc3545;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        border-radius: 4px;
+        position: relative;
+    }
+    
+    .error-summary h4 {
+        color: #721c24;
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+    }
+    
+    .error-summary ul {
+        margin-bottom: 0;
+        padding-left: 1.25rem;
+    }
+    
+    .error-summary li {
+        margin-bottom: 0.25rem;
+    }
+    
+    .error-icon {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        font-size: 1.5rem;
+        color: #dc3545;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .error-summary {
+        animation: fadeIn 0.3s ease-out;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="register-container">
+    <h2 class="register-title">Researcher Registration</h2>
+    
+    {% if errors_list %}
+    <div class="error-summary">
+        <span class="error-icon">⚠️</span>
+        <h4>Please fix the following errors:</h4>
+        <ul>
+            {% for error in errors_list %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    
+    <div class="researcher-info">
+        <h4>Researcher Information</h4>
+        <p>Please provide your institutional affiliation and credentials. This information will be reviewed by our team before your account is activated.</p>
+    </div>
+
+    <form method="post" action="{% url 'user:register' %}">
+        {% csrf_token %}
+        
+        <!-- User Information -->
+        <div class="form-group">
+            <label class="required-field" for="username">Username</label>
+            <input type="text" class="form-control" id="username" name="username" required maxlength="50" value="{{ username }}">
+            <small class="form-text">Username must be unique and can contain up to 50 characters</small>
+            {% if username_error %}
+            <div class="field-error">{{ username_error }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label class="required-field" for="email">Email Address</label>
+            <input type="email" class="form-control" id="email" name="email" required maxlength="255" value="{{ email }}">
+            <small class="form-text">Email must be unique and will be used for account verification</small>
+            {% if email_error %}
+            <div class="field-error">{{ email_error }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label class="required-field" for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+            <small class="form-text">Password must be at least 8 characters long</small>
+            {% if password_error %}
+            <div class="field-error">{{ password_error }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label class="required-field" for="confirm_password">Confirm Password</label>
+            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+            {% if confirm_password_error %}
+            <div class="field-error">{{ confirm_password_error }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Researcher Information -->
+        <div class="form-group">
+            <label class="required-field" for="institution">Institution</label>
+            <input type="text" class="form-control" id="institution" name="institution" required maxlength="255" value="{{ institution }}">
+            <small class="form-text">Your current academic or research institution</small>
+        </div>
+
+        <button type="submit" class="btn btn-register">Register</button>
+    </form>
+    <div class="login-link">
+        <p>Already have an account? <a href="/login/">Login here</a></p>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,47 @@
+{% extends 'encyclosaurus/base.html' %}
+
+{% block title %}Data Logs - Encyclosaurus{% endblock %}
+
+{% block extra_css %}
+<style>
+    .browse-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    .browse-title {
+        text-align: center;
+        color: var(--primary-color);
+        margin-bottom: 2rem;
+    }
+
+    .browse-section {
+        margin-bottom: 2rem;
+        padding: 1rem;
+        border: 1px solid #e1e1e1;
+        border-radius: 5px;
+    }
+
+    .section-title {
+        color: var(--secondary-color);
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="browse-container">
+    <h2 class="browse-title">View Request Logs</h2>
+
+    {% for entry in log_table %}
+    <div class="browse-section">
+        {{ entry.entry_text }}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+</div>
