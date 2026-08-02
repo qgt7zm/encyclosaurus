@@ -49,15 +49,18 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware', # Must be first
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     'dino_database_project.middleware.AuthenticationMiddleware',
 ]
+
+# Prevent map tiles from being blocked when HTTP: https://wiki.openstreetmap.org/wiki/Referer
+SECURE_REFERRER_POLICY = 'origin-when-cross-origin'
 
 ROOT_URLCONF = 'dino_database_project.urls'
 
