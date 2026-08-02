@@ -16,9 +16,18 @@ I pitched the project idea and contributed the starter data. I created the brows
 
 ## Instructions
 
+### Docker (Recommended)
+
+1. Build the docker image and create the container: `./setup_docker.sh`.
+2. Visit the development server: http://127.0.0.1:8000/.
+3. Copy .env.blank into .env and enter your secret key and database credentials.
+4. Terminate the development server: `docker compose stop`.
+
+### Venv
+
 1. (Optional) Create a Python virtual environment: `python3 -m venv venv/`.
 2. Install project dependencies: `pip3 install -r requirements.txt`.
-3. Enter your secret key and database credentials into dino\_database\_project/settings.py (read from an .env file for best practice).
-4. Populate your database with the tables and records provided in start\_data.sql.
+3. Copy .env.blank into .env and enter your secret key and database credentials.
+4. Populate your database with the tables and records provided in init.sql.
 5. Run the local development server: `python3 manage.py runserver`.
 6. Visit the development server: http://127.0.0.1:8000/.
