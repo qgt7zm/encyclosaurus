@@ -28,6 +28,6 @@ I pitched the project idea and contributed the starter data. I created the brows
 1. (Optional) Create a Python virtual environment: `python3 -m venv venv/`.
 2. Install project dependencies: `pip3 install -r requirements.txt`.
 3. Copy .env.blank into .env and enter your secret key and database credentials.
-4. Populate your database with the tables and records provided in init.sql.
+4. Run the database initialization script to create tables and sample records: `\i init.sql`.
 5. Run the local development server: `python3 manage.py runserver`.
 6. Visit the development server: http://127.0.0.1:8000/.
