@@ -10,25 +10,28 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+from os import getenv
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Environment files
+# The Dockerfile provides environment variables to Django
+# Use any library such as django-environ or python-dotenv if not using Docker
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'your-django-secret-key'
+SECRET_KEY = getenv('SECRET_KEY', default='dinosecretkey')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(getenv('DEBUG', default=True))
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-]
+ALLOWED_HOSTS = getenv(
+    'ALLOWED_HOSTS', default='localhost,127.0.0.1'
+).split(',')
 
 
 # Application definition
@@ -84,12 +87,14 @@ WSGI_APPLICATION = 'dino_database_project.wsgi.application'
 # SECURITY WARNING: keep the database credentials secret!
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dbname',
-        'USER': 'dbuser',
-        'PASSWORD': 'dbpassword',
-        'HOST': 'dbhost.example.com',
-        'PORT': '5432'
+        'ENGINE': 'django.db.backends.{}'.format(
+            getenv('DATABASE_ENGINE', default='postgresql')
+        ),
+        'NAME': getenv('DATABASE_NAME', default='dinodb'),
+        'USER': getenv('DATABASE_USER', default='dinouser'),
+        'PASSWORD': getenv('DATABASE_PASSWORD', default='dinopassword'),
+        'HOST': getenv('DATABASE_HOST', default='db'),
+        'PORT': getenv('DATABASE_PORT', default='5432'),
     }
 }
 
