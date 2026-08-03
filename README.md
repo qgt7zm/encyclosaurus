@@ -14,20 +14,26 @@ I word with 3 other students to create this project for CS 4750 (Database System
 
 I pitched the project idea and contributed the starter data. I created the browser dinosaurs view that lists entries and allows searching by keyword and attribute. I also created the dinosaur view that details information for individual entries, along with corresponding data from the locations table.
 
+## Prerequisites
+
+If you are using Docker, install [Docker Engine](https://docs.docker.com/engine/install/) and [Docker Compose](https://docs.docker.com/compose/install/). Otherwise install [Python](https://www.python.org/downloads/) and [PostgreSQL](https://www.postgresql.org/download/).
+
+This project uses Python 3.13, PostgreSQL 17, and Django 5.2.
+
 ## Instructions
 
 ### Docker (Recommended)
 
-1. Build the docker image and create the container: `./setup_docker.sh`.
-2. Visit the development server: http://127.0.0.1:8000/.
-3. Copy .env.blank into .env and enter your secret key and database credentials.
+1. Copy .env.blank into .env and enter your secret key and database credentials.
+2. Build the docker image and create the container: `./setup_docker.sh`.
+3. Visit the development server: http://127.0.0.1:8000/.
 4. Terminate the development server: `docker compose stop`.
 
 ### Venv
 
-1. (Optional) Create a Python virtual environment: `python3 -m venv venv/`.
+1. (Optional) Create a Python virtual environment: `python3 -m venv .venv/`.
 2. Install project dependencies: `pip3 install -r requirements.txt`.
 3. Copy .env.blank into .env and enter your secret key and database credentials.
-4. Run the database initialization script to create tables and sample records: `\i init.sql`.
+4. Create your database and initialize it: `psql -c "CREATE DATABASE <dbname>" && psql -X <dbname> < init.sql`.
 5. Run the local development server: `python3 manage.py runserver`.
 6. Visit the development server: http://127.0.0.1:8000/.
