@@ -10,7 +10,7 @@ Going on an expedition? We've got you covered! Browse a world map with major exc
 
 ## My Contributions
 
-I word with 3 other students to create this project for CS 4750 (Database Systems) at UVA. Throughout the course, we learned how to implement read-only views, stored procedures, union queries, and role-base access control. For finer contorl, we used raw SQL commands instead of the Django ORM. Our group also won the second-best class project.
+I word with 3 other students to create this project for CS 4750 (Database Systems) at UVA. Throughout the course, we learned how to implement read-only views, stored procedures, union queries, and role-base access control. For finer control raw SQL commands instead of the Django ORM. Our group also won the second-best class project.
 
 I pitched the project idea and contributed the starter data. I created the browser dinosaurs view that lists entries and allows searching by keyword and attribute. I also created the dinosaur view that details information for individual entries, along with corresponding data from the locations table.
 
@@ -20,11 +20,13 @@ If you are using Docker, install [Docker Engine](https://docs.docker.com/engine/
 
 This project uses Python 3.13, PostgreSQL 17, and Django 5.2.
 
+To generate a Django secret key, run `python3 gen_key.py` or `docker compose exec web python gen_key.py`.
+
 ## Instructions
 
 ### Docker (Recommended)
 
-1. Copy .env.blank into .env and enter your secret key and database credentials.
+1. Copy **.env.blank** into **.env** and enter your secret key and database credentials.
 2. Build the docker image and create the container: `./setup_docker.sh`.
 3. Visit the development server: http://127.0.0.1:8000/.
 4. Terminate the development server: `docker compose stop`.
@@ -33,7 +35,7 @@ This project uses Python 3.13, PostgreSQL 17, and Django 5.2.
 
 1. (Optional) Create a Python virtual environment: `python3 -m venv .venv/`.
 2. Install project dependencies: `pip3 install -r requirements.txt`.
-3. Copy .env.blank into .env and enter your secret key and database credentials.
+3. Copy **.env.blank** into **.env** and enter your secret key and database credentials.
 4. Create your database and initialize it: `psql -c "CREATE DATABASE <dbname>" && psql -X <dbname> < init.sql`.
 5. Run the local development server: `python3 manage.py runserver`.
 6. Visit the development server: http://127.0.0.1:8000/.
