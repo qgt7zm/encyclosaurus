@@ -39,3 +39,25 @@ To generate a Django secret key, run `docker compose exec web python gen_key.py`
 4. Create your database and initialize it: `psql -c "CREATE DATABASE <dbname>" && psql -X <dbname> < init.sql`.
 5. Run the local development server: `python3 manage.py runserver`.
 6. Visit the development server: http://127.0.0.1:8000/.
+
+## Screenshots
+
+Quickly access all site functions through the homepage.
+
+<img src="screenshots/homepage.png" alt="Homepage" width=400>
+
+Easily locate fossil sites around the world using the interactive map.
+
+<img src="screenshots/map.png" alt="Interactive map" width=400>
+
+View detailed information about each individual prehistoric taxa.
+
+<img src="screenshots/dino_info.png" alt="Dinosaur info page" width=400>
+
+Search the database to filter taxa by name or attribute.
+
+<img src="screenshots/search.png" alt="Search page" width=400>
+
+Create an account and submit new or updated information.
+
+<img src="screenshots/submit.png" alt="Submit page" width=400>
