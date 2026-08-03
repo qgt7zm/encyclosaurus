@@ -20,18 +20,18 @@ If you are using Docker, install [Docker Engine](https://docs.docker.com/engine/
 
 This project uses Python 3.14, PostgreSQL 18, and Django 5.2.
 
-To generate a Django secret key, run `python3 gen_key.py` or `docker compose exec web python gen_key.py`.
+To generate a Django secret key, run `docker compose exec web python gen_key.py` (Docker) or `python3 gen_key.py` (venv).
 
 ## Instructions
 
 ### Docker (Recommended)
 
 1. Copy **.env.blank** into **.env** and enter your secret key and database credentials.
-2. Build the docker image and create the container: `./setup_docker.sh`.
+2. Build the docker image and run the container: `./start_docker.sh`.
 3. Visit the development server: http://127.0.0.1:8000/.
-4. Terminate the development server: `docker compose stop`.
+4. Shut down the development server: `docker compose stop` or `docker compose down -v` (deletes volumes).
 
-### Venv
+### venv
 
 1. (Optional) Create a Python virtual environment: `python3 -m venv .venv/`.
 2. Install project dependencies: `pip3 install -r requirements.txt`.
