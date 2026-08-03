@@ -6,6 +6,7 @@ FROM python:3.13-slim
 # App directory
 RUN mkdir /app
 WORKDIR /app
+# COPY . /app/ # Production: Ship website with image
 
 # Environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -20,6 +21,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY init.sql /docker-entrypoint-initdb.d/
 
 # Django server
-COPY . /app/
 EXPOSE 8000
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

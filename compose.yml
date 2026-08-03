@@ -23,6 +23,8 @@ services:
       - "8000:8000"
     depends_on:
       - db
+    volumes:
+      - .:/app:ro # Development: Reload changes to app
     environment:
       DEBUG: ${DEBUG}
       SECRET_KEY: ${SECRET_KEY}
