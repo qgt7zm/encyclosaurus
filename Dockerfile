@@ -1,7 +1,7 @@
 # Source: https://www.docker.com/blog/how-to-dockerize-django-app/
 
 # Python version
-FROM python:3.13-slim
+FROM python:3.14-slim
 
 # App directory
 RUN mkdir /app

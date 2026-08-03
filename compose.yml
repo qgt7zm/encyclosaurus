@@ -3,15 +3,15 @@ name: encyclosaurus
 services:
   db:
     # PostgreSQL database
-    image: postgres:17
+    image: postgres:18
     environment:
       POSTGRES_DB: ${DATABASE_NAME}
       POSTGRES_USER: ${DATABASE_USER}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
     ports:
-      - "5432:5432"
+      - "${DATABASE_PORT}:${DATABASE_PORT}"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     env_file:
       - .env

@@ -1,4 +1,7 @@
--- Dinosaur Database Initialization Script
+--
+-- Encyclosaurus Database Initialization Script
+-- Postgres Version: 17+
+--
 
 -- Drop existing views first to avoid dependency issues
 DROP VIEW IF EXISTS DinosaurLocationCounts;

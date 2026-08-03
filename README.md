@@ -18,7 +18,7 @@ I pitched the project idea and contributed the starter data. I created the brows
 
 If you are using Docker, install [Docker Engine](https://docs.docker.com/engine/install/) and [Docker Compose](https://docs.docker.com/compose/install/). Otherwise install [Python](https://www.python.org/downloads/) and [PostgreSQL](https://www.postgresql.org/download/).
 
-This project uses Python 3.13, PostgreSQL 17, and Django 5.2.
+This project uses Python 3.14, PostgreSQL 18, and Django 5.2.
 
 To generate a Django secret key, run `python3 gen_key.py` or `docker compose exec web python gen_key.py`.
 
