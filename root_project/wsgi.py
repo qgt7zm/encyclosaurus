@@ -1,5 +1,5 @@
 """
-WSGI config for dino_database_project project.
+WSGI config for root_project project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dino_database_project.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'root_project.settings')
 
 application = get_wsgi_application()
