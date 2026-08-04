@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+from dotenv import load_dotenv
 from os import getenv
 from pathlib import Path
 
@@ -17,8 +18,9 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Environment files
-# The Dockerfile provides environment variables to Django
-# Use any library such as django-environ or python-dotenv if not using Docker
+# Dockerfile provides environment variables from .env to Django
+# If running without Docker, may need to read from .env file
+load_dotenv(dotenv_path='.env', override=False)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
